@@ -1,0 +1,17 @@
+version: "3"
+services:
+
+    ros1-bridge:
+        build: ./ros1-bridge/
+        network_mode: "host"
+        env_file:
+            - ./common.env
+        logging:
+              options:
+                  max-size: "200k"
+        command: ros2 run ros1_bridge dynamic_bridge -- --bridge-all-2to1-topics
+
+    ros1-relay:
+        image: ros:indigo
+        network_mode: "host"
+        command: rosrun topic_tools relay joy hsrb/joy

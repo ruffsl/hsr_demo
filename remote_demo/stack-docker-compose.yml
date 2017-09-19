@@ -1,0 +1,35 @@
+version: "3"
+services:
+
+    ros1-bridge:
+        build: osrf/hsr_demo:ros1-bridge
+        networks:
+            - default
+        deploy:
+            restart_policy:
+                condition: on-failure
+            placement:
+                constraints:
+                    - node.hostname == ${ROBOT_ID}
+        env_file:
+            - ./common.env
+        logging:
+              options:
+                  max-size: "200k"
+        command: ros2 run ros1_bridge dynamic_bridge -- --show-introspection --print-pairs --bridge-all-topics
+
+    ros2-joy:
+        build: osrf/hsr_demo:ros1-bridge:ros2-joy
+        networks:
+            - default
+        depends_on:
+            - ros1-bridge
+        deploy:
+            restart_policy:
+                condition: on-failure
+            placement:
+                constraints:
+                    - node.hostname == ${REMOTE_ID}
+        env_file:
+            - ./common.env
+        command: ros2 run joy joy_node

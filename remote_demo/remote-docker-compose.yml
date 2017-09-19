@@ -1,0 +1,11 @@
+version: "3"
+services:
+
+    ros2-joy:
+        build: ./ros2-joy/
+        network_mode: "host"
+        env_file:
+            - ./common.env
+        devices:
+            - "/dev/input/js0:/dev/input/js0"
+        command: ros2 run joy joy_node

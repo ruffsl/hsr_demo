@@ -22,7 +22,7 @@ else
 fi
 
 prepare_docker_user_parameters() {
-  USER_SET=" --user=${USER_UID}:${USER_UID}"
+  USER_SET=" --user=${USER_UID}:${USER_GID}"
 }
 
 prepare_docker_env_parameters() {
